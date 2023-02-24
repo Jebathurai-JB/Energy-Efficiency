@@ -14,3 +14,7 @@ class DataTransformation:
 	def feature_scaling(self, train_data):
 		scaler = StandardScaler()
 		scaler.fit
+
+
+
+#################################   YET  TO  FINISH   ###########################################
