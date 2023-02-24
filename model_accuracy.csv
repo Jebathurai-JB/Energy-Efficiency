@@ -1,0 +1,4 @@
+,Heating Load,Cooling Load
+random forest,99.76,97.66
+linear regression,88.73,88.29
+support vector machine,18.45,38.96

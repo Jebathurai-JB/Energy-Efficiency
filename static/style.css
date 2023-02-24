@@ -1,0 +1,137 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Open Sans", sans-serif;
+  background: #e2e2e2;
+}
+
+svg {
+  position: fixed;
+  top: 10px;
+  left: 180px;
+}
+
+.container {
+  position: relative;
+  top: 200px;
+  left: 35%;
+  display: block;
+  margin-bottom: 380px;
+  width: 500px;
+  height: 738px;
+  background: #fff;
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+h2 {
+  padding: 40px;
+  font-weight: bolder;
+  text-transform: uppercase;
+  color: #414141;
+  font-family: Malgun Gothic;
+}
+
+input {
+  display: block;
+  height: 50px;
+  width: 90%;
+  margin: 0 auto;
+  border: none;
+}
+input::placeholder {
+  -webkit-transform: translateY(0px);
+  transform: translateY(0px);
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+input:hover, input:focus, input:active:focus {
+  color: #ff5722;
+  outline: none;
+  border-bottom: 1px solid #ff5722;
+}
+input:hover::placeholder, input:focus::placeholder, input:active:focus::placeholder {
+  color: #ff5722;
+  position: relative;
+  -webkit-transform: translateY(-20px);
+  transform: translateY(-20px);
+}
+
+button {
+  cursor: pointer;
+  display: inline-block;
+  float: left;
+  width: 250px;
+  height: 60px;
+  margin-top: -10px;
+  border: none;
+  font-family: "Open Sans", sans-serif;
+  text-transform: uppercase;
+  color: #fff;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+button:nth-of-type(1) {
+  background: #673ab7;
+}
+button:nth-of-type(2) {
+  background: #ff5722;
+}
+button span {
+  position: absolute;
+  display: block;
+  margin: -10px 20%;
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+button:hover span {
+  -webkit-transform: translateX(30px);
+  transform: translateX(30px);
+}
+
+.cooling_load {
+  position: relative;
+  top: 200px;
+  left: 35%;
+  display: block;
+  margin-bottom: 380px;
+  width: 500px;
+  height: 338px;
+  background: #673ab7;
+  border-radius: 25px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.heating_load {
+  position: relative;
+  top: 200px;
+  left: 35%;
+  display: block;
+  margin-bottom: 380px;
+  width: 500px;
+  height: 338px;
+  background: #ff5722;
+  border-radius: 25px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+h3 {
+  position: relative;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 338px;
+  text-transform: uppercase;
+  font-weight: bolder;
+  color: rgba(255, 255, 255, 0.5);
+}
