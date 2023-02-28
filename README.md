@@ -7,7 +7,10 @@ The goal of this project is to develop a machine learning model that can accurat
 
 ## About Dataset
 
-performed energy analysis using 12 different building shapes simulated in Ecotect. The buildings differ with respect to the glazing area, the glazing area distribution, and the orientation, amongst other parameters. The dataset comprises 768 samples and 8 features, aiming to predict two real valued responses. 
+Performed energy analysis using 12 different building shapes simulated in Ecotect. The buildings differ with respect to the glazing area, the glazing area distribution, and the orientation, amongst other parameters. We simulate various settings as functions of the afore-mentioned characteristics to obtain 768 building shapes. The dataset comprises 768 samples and 8 features, aiming to predict two real valued responses. It can also be used as a multi-class classification problem if the response is rounded to the nearest integer.
+
+Data Link: https://www.kaggle.com/datasets/ujjwalchowdhury/energy-efficiency-data-set
+
 ## Models
 
 The project uses three different machine learning models to predict the cooling load and heating load in a building:
