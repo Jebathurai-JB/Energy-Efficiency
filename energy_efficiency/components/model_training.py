@@ -6,7 +6,7 @@ from sklearn.svm import SVR
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
-from sklearn.metrics import r2_score, mean_squared_error
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 from energy_efficiency.logger import logging
 from energy_efficiency.exception import EnergyEfficiencyException
 
@@ -24,7 +24,8 @@ class ModelTrainer:
 			prediction = model.predict(x_test)
 			r2 = round(r2_score(prediction, y_test), 3)
 			mse = round(mean_squared_error(prediction, y_test), 3)
-			return r2, mse
+			mae = rount(mean_absolute_error(prediction, y_test), 3)
+			return r2, mse, mae
 
 		except Exception as e:
 			raise EnergyEfficiencyException(e, sys)
@@ -62,14 +63,16 @@ class ModelTrainer:
 				logging.info(f'training cooling load model using {cooling_metrics.index[i]}')
 				cooling_load_model = model.fit(x_train, cool_load_train)
 
-				r2_score, mse = self.model_evaluation(model=model, x_test=x_test, y_test=heat_load_test)
+				r2_score, mse, mae = self.model_evaluation(model=model, x_test=x_test, y_test=heat_load_test)
 				heating_metrics['Accuracy'][i] = r2_score
 				heating_metrics['MSE'][i] = mse
+				heating_metrics['MAE'][i] = mae
 				
-				r2_score, mse = self.model_evaluation(model=model, x_test=x_test, y_test=cool_load_test)
+				r2_score, mse, mae = self.model_evaluation(model=model, x_test=x_test, y_test=cool_load_test)
 				cooling_metrics['Accuracy'][i] = r2_score
 				cooling_metrics['MSE'][i] = mse
-
+				heating_metrics['MAE'][i] = mae
+				
 				logging.info(f'creating a directory for saving the models')
 				model_dir = f'saved models/{heating_metrics.index[i]}'
 				os.makedirs(model_dir, exist_ok=True)
