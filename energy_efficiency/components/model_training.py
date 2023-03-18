@@ -1,6 +1,7 @@
 import os
 import sys
 import pickle
+import numpy as np
 import pandas as pd
 from sklearn.svm import SVR
 from sklearn.linear_model import LinearRegression
@@ -24,8 +25,9 @@ class ModelTrainer:
 			prediction = model.predict(x_test)
 			r2 = round(r2_score(prediction, y_test), 3)
 			mse = round(mean_squared_error(prediction, y_test), 3)
-			mae = rount(mean_absolute_error(prediction, y_test), 3)
-			return r2, mse, mae
+			rmse = round(np.sqrt(mse), 3)
+			mae = round(mean_absolute_error(prediction, y_test), 3)
+			return r2, mse, rmse, mae
 
 		except Exception as e:
 			raise EnergyEfficiencyException(e, sys)
@@ -63,16 +65,18 @@ class ModelTrainer:
 				logging.info(f'training cooling load model using {cooling_metrics.index[i]}')
 				cooling_load_model = model.fit(x_train, cool_load_train)
 
-				r2_score, mse, mae = self.model_evaluation(model=model, x_test=x_test, y_test=heat_load_test)
+				r2_score, rmse, mse, mae = self.model_evaluation(model=model, x_test=x_test, y_test=heat_load_test)
 				heating_metrics['Accuracy'][i] = r2_score
 				heating_metrics['MSE'][i] = mse
+				heating_metrics['RMSE'][i] = rmse
 				heating_metrics['MAE'][i] = mae
 				
-				r2_score, mse, mae = self.model_evaluation(model=model, x_test=x_test, y_test=cool_load_test)
+				r2_score, rmse, mse, mae = self.model_evaluation(model=model, x_test=x_test, y_test=cool_load_test)
 				cooling_metrics['Accuracy'][i] = r2_score
 				cooling_metrics['MSE'][i] = mse
-				heating_metrics['MAE'][i] = mae
-				
+				cooling_metrics['RMSE'][i] = rmse
+				cooling_metrics['MAE'][i] = mae
+
 				logging.info(f'creating a directory for saving the models')
 				model_dir = f'saved models/{heating_metrics.index[i]}'
 				os.makedirs(model_dir, exist_ok=True)
