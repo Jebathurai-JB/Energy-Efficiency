@@ -16,9 +16,11 @@ def home():
 		data = np.array(data[:-1])
 		data = data.reshape(1, -1)
 
-		model_accuracy = pd.read_csv('model_accuracy.csv', index_col='Unnamed: 0')
-		heating_load_model_name = model_accuracy['Heating Load'].idxmax()
-		cooling_load_model_name = model_accuracy['Cooling Load'].idxmax()
+		heating_metrics = pd.read_csv('heating_metrics.csv', index_col='Unnamed: 0')
+		cooling_metrics = pd.read_csv('cooling_metrics.csv', index_col='Unnamed: 0')
+
+		heating_load_model_name = heating_metrics['Accuracy'].idxmax()
+		cooling_load_model_name = cooling_metrics['Accuracy'].idxmax()
 		
 
 		cooling_button = request.form.get('cooling_button')
