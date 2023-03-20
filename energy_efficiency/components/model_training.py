@@ -65,13 +65,13 @@ class ModelTrainer:
 				logging.info(f'training cooling load model using {cooling_metrics.index[i]}')
 				cooling_load_model = model.fit(x_train, cool_load_train)
 
-				r2_score, rmse, mse, mae = self.model_evaluation(model=model, x_test=x_test, y_test=heat_load_test)
+				r2_score, mse, rmse, mae = self.model_evaluation(model=model, x_test=x_test, y_test=heat_load_test)
 				heating_metrics['Accuracy'][i] = r2_score
 				heating_metrics['MSE'][i] = mse
 				heating_metrics['RMSE'][i] = rmse
 				heating_metrics['MAE'][i] = mae
 				
-				r2_score, rmse, mse, mae = self.model_evaluation(model=model, x_test=x_test, y_test=cool_load_test)
+				r2_score, mse, rmse, mae = self.model_evaluation(model=model, x_test=x_test, y_test=cool_load_test)
 				cooling_metrics['Accuracy'][i] = r2_score
 				cooling_metrics['MSE'][i] = mse
 				cooling_metrics['RMSE'][i] = rmse

@@ -1,5 +1,5 @@
 ,Accuracy,MSE,RMSE,MAE
-random forest,0.966,1.717,2.947,1.112
-linear regression,0.815,3.788,14.349,2.781
-support vector machine,0.333,5.326,28.369,3.676
-decision tree,0.922,2.588,6.698,1.396
+random forest,0.975,2.391,1.546,0.95
+linear regression,0.883,9.212,3.035,2.129
+support vector machine,0.39,26.243,5.123,3.615
+decision tree,0.96,3.88,1.97,1.08

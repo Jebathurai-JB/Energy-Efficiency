@@ -16,5 +16,9 @@ class DataTransformation:
 		scaler.fit
 
 
+	def initiate_data_transformation(self):
+		pass
+
+
 
 #################################   YET  TO  FINISH   ###########################################

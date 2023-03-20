@@ -28,8 +28,8 @@ def home():
 		if cooling_button is not None:
 			cooling_load_model = pickle.load(open(f'saved models/{cooling_load_model_name}/cooling_load_model.pkl', 'rb'))
 			prediction = cooling_load_model.predict(data)
-
-			button = 'cooling' 
+			button = 'cooling'
+			
 		else:
 			heating_load_model = pickle.load(open(f'saved models/{heating_load_model_name}/heating_load_model.pkl', 'rb'))
 			prediction = heating_load_model.predict(data)
