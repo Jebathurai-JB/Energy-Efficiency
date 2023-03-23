@@ -4,6 +4,7 @@ import pickle
 import numpy as np
 import pandas as pd
 from sklearn.svm import SVR
+from sklearn.model_selection import GridSearchCV
 from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
@@ -12,10 +13,10 @@ from energy_efficiency.logger import logging
 from energy_efficiency.exception import EnergyEfficiencyException
 
 class ModelTrainer:
-	def __init__(self, train_df, test_df):
+	def __init__(self, train_data, test_data):
 		try:
-			self.train_df = train_df
-			self.test_df = test_df
+			self.train_data = train_data
+			self.test_data = test_data
 		except Exception as e:
 			raise EnergyEfficiencyException(e, sys)
 
@@ -36,10 +37,27 @@ class ModelTrainer:
 	def initiate_model_trainer(self):
 		try:
 
-			regression_models = {'random forest': RandomForestRegressor(),
-								 'linear regression': LinearRegression(),
-								 'support vector machine': SVR(),
-								 'decision tree': DecisionTreeRegressor()}
+			regression_models = {'Random Forest': RandomForestRegressor(),
+								 'Linear Regression': LinearRegression(),
+								 'Support Vector Machine': SVR(),
+								 'Decision Tree': DecisionTreeRegressor()}
+
+			params={
+                
+                "Random Forest":{
+                    'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                    'max_features':['sqrt','log2',None],
+                    'n_estimators': [8,16,32,64,128,256]
+                },
+                "Linear Regression":{},
+                "Support Vector Machine":{},
+                "Decision Tree": {
+                    'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                    'splitter':['best','random'],
+                    'max_features':['sqrt','log2']
+                }
+                
+            }
 
 			logging.info(f'creating accuracy table to store the accuracy of machine learning models')
 			heating_metrics = pd.DataFrame(columns=['Accuracy', 'MSE', 'RMSE', 'MAE'], dtype=object,
@@ -49,21 +67,32 @@ class ModelTrainer:
 										   index=regression_models.keys())
 
 			logging.info(f'separating input feature and output labels of train data')
-			x_train = self.train_df.iloc[:, :-2]
-			heat_load_train, cool_load_train = self.train_df.iloc[:, -2], self.train_df.iloc[:, -1]
+			x_train = self.train_data.iloc[:, :-2]
+			heat_load_train, cool_load_train = self.train_data.iloc[:, -2], self.train_data.iloc[:, -1]
 
 			logging.info(f'separating input feature and output labels of test data')
-			x_test = self.test_df.iloc[:, :-2]
-			heat_load_test, cool_load_test = self.test_df.iloc[:, -2], self.test_df.iloc[:, -1]
+			x_test = self.test_data.iloc[:, :-2]
+			heat_load_test, cool_load_test = self.test_data.iloc[:, -2], self.test_data.iloc[:, -1]
 
 
 			for i, model in enumerate(regression_models.values()):
 
+				para=params[list(regression_models.keys())[i]]
+				print(f"********************* Training {model} *********************")
 				logging.info(f'training heating load model using {heating_metrics.index[i]}')
+				heating_gs = GridSearchCV(model, para, cv=2)
+				heating_gs.fit(x_train, heat_load_train)
+				model.set_params(**heating_gs.best_params_)
 				heating_load_model = model.fit(x_train, heat_load_train)
 
 				logging.info(f'training cooling load model using {cooling_metrics.index[i]}')
+				cooling_gs = GridSearchCV(model, para, cv=2)
+				cooling_gs.fit(x_train, cool_load_train)
+				model.set_params(**cooling_gs.best_params_)
 				cooling_load_model = model.fit(x_train, cool_load_train)
+
+				# heating_load_model = model.fit(x_train, heat_load_train)
+				# cooling_load_model = model.fit(x_train, cool_load_train)
 
 				r2_score, mse, rmse, mae = self.model_evaluation(model=model, x_test=x_test, y_test=heat_load_test)
 				heating_metrics['Accuracy'][i] = r2_score
@@ -78,7 +107,7 @@ class ModelTrainer:
 				cooling_metrics['MAE'][i] = mae
 
 				logging.info(f'creating a directory for saving the models')
-				model_dir = f'saved models/{heating_metrics.index[i]}'
+				model_dir = f'Artifact/saved models/{heating_metrics.index[i]}'
 				os.makedirs(model_dir, exist_ok=True)
 
 				logging.info(f'saving {heating_metrics.index[i]} model')

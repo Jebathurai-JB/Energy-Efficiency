@@ -24,19 +24,19 @@ class DataIngestion:
 				df = df.drop('_id', axis=1)
 
 			logging.info(f'creating a dataset directory')
-			dataset_dir = os.path.join(os.getcwd(), 'dataset')
+			dataset_dir = os.path.join(os.getcwd(), 'Artifact/dataset')
 			os.makedirs(dataset_dir, exist_ok=True)
 
 			logging.info(f'spliting the dataset into training and testing')
-			train_df, test_df = train_test_split(df, test_size=0.15, random_state=1)
+			train_data, test_data = train_test_split(df, test_size=0.15, random_state=1)
 
 			logging.info(f'saving train dataset in dataset directory')
-			train_df.to_csv(path_or_buf=f'{dataset_dir}/train.csv', index=False, header=True)
+			train_data.to_csv(path_or_buf=f'{dataset_dir}/train.csv', index=False, header=True)
 
 			logging.info(f'saving test dataset in dataset directory')
-			test_df.to_csv(path_or_buf=f'{dataset_dir}/test.csv', index=False, header=True)
+			test_data.to_csv(path_or_buf=f'{dataset_dir}/test.csv', index=False, header=True)
 
-			return train_df, test_df
+			return train_data, test_data
 
 		except Exception as e:
 			raise EnergyEfficiencyException(e, sys)
