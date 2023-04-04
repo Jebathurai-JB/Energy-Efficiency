@@ -8,7 +8,7 @@ from energy_efficiency.exception import EnergyEfficiencyException
 
 database_name = "Ineuron_project"
 collection_name = "Energy_Efficiency"
-mongo_client = pymongo.MongoClient("mongodb+srv://jebathurai:<password>@cluster0.irlqnsu.mongodb.net/?retryWrites=true&w=majority")
+mongo_client = pymongo.MongoClient("mongodb+srv://jebathurai:7010333275JB@cluster0.irlqnsu.mongodb.net/?retryWrites=true&w=majority")
 
 
 if __name__ == '__main__':
@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
 		train_data, test_data = data_ingestion.initiate_data_ingestion()
 
-		data_transformation = DataTransformation(train_data=datatrain_data, test_data=test_data)
+		data_transformation = DataTransformation(train_data=train_data, test_data=test_data)
 		scaled_train_data, scaled_test_data = data_transformation.initiate_data_transformation()
 
 		model_training = ModelTrainer(train_data=scaled_train_data, test_data=scaled_test_data)
