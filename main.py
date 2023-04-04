@@ -8,7 +8,7 @@ from energy_efficiency.exception import EnergyEfficiencyException
 
 database_name = "Ineuron_project"
 collection_name = "Energy_Efficiency"
-mongo_client = pymongo.MongoClient("mongodb+srv://jebathurai:7010333275JB@cluster0.irlqnsu.mongodb.net/?retryWrites=true&w=majority")
+mongo_client = pymongo.MongoClient("mongodb+srv://jebathurai:<password>@cluster0.irlqnsu.mongodb.net/?retryWrites=true&w=majority")
 
 
 if __name__ == '__main__':
